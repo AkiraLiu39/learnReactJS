@@ -1,9 +1,8 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
-import {render} from 'react-dom';
-import Greeter from './Greeter';
+import {ReactDOM,render} from 'react-dom';
+// import {render} from 'react-dom';
+// import Greeter from './Greeter';
+import Gallery from './Gallery';
 
-// import '../css/main.css';
-// import '../css/demo.scss';
 
-render(<Greeter />,document.getElementById('root'));
+render(<Gallery />,document.getElementById('content'));
