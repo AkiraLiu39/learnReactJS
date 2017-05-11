@@ -1,7 +1,7 @@
 html, body {
 	width:100%;
 	height:100%;
-	background-color:#ddd;
+	background-color:#222;
 	padding:0px;
 	margin:0px;
 }
@@ -14,6 +14,7 @@ html, body {
 	position:relative;
 	width:100%;
 	height:680px;
+	display:block;
 }
 /* stage end */
 
@@ -24,6 +25,7 @@ html, body {
 	height : 100%;
 	overflow:hidden;
 	background-color : #ddd;
+	display:block;
 
 	@at-root{/*sass 语法，编译后和 .img-sec同级，都在根节点上*/
 		.img-figure{
