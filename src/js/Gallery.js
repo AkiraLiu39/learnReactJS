@@ -68,8 +68,9 @@ class Gallery extends Component{
 			x:[halfStageW - imageFigureW,halfStageW]
 
 		}
-		// console.log(stageDOM.clientWidth);
-		// console.log(stageW,stageH,stageDOM);
+		
+		
+		
 
 		this.rearrahge(0);
 
@@ -79,6 +80,31 @@ class Gallery extends Component{
 	 */
 	getRangeRandom(low,high){
 		return Math.ceil(Math.random() * (high - low) + low);
+	}
+	/*
+	 * 获取0~30° 之间的任意正负值
+	 */
+	get30DegRandom(){
+		return (Math.random() > 0.5 ? "" : "-") + Math.ceil(Math.random() * 30);
+	}
+	/*
+	 * 生成翻转图片闭包函数
+	 */
+	inverseActionCreator(index){
+		return function(){
+			let imagesArrangeArr = this.state.imagesArrangeArr;
+			let target = imagesArrangeArr[index];
+			target.isInverse = !target.isInverse;
+			this.setState({
+				imagesArrangeArr : imagesArrangeArr
+			})
+
+		}.bind(this);
+	}
+	centerActionCreator(index){
+		return function(){
+			this.rearrahge(index);
+		}.bind(this);
 	}
 	/*
 	 * 重排图片
@@ -96,7 +122,7 @@ class Gallery extends Component{
 			vPosRangeX = vPosRange.x,
 
 			imagesArrangeTopArr = [],
-			topImageNum = Math.ceil(Math.random() * 2),//0-1
+			topImageNum = Math.floor(Math.random() * 2),//0-1
 			topImageSpliceIndex = 0,
 
 			imagesArrangeCenterArr = imagesArrangeArr.splice(centerIndex,1);
@@ -104,15 +130,27 @@ class Gallery extends Component{
 
 		
 		//居中图片
-		imagesArrangeCenterArr[0].pos = centerPos;
+		imagesArrangeCenterArr[0] = {
+			pos:centerPos,
+			rotate : 0,
+			isCenter : true
+		};
+		
+		
+		
 
 		//上方图片
 		topImageSpliceIndex = Math.ceil(Math.random() * imagesArrangeArr.length - topImageNum);//上方图片起始索引
 		imagesArrangeTopArr = imagesArrangeArr.splice(topImageSpliceIndex,topImageNum);
 		imagesArrangeTopArr.forEach((value,index)=>{
-			value.pos = {
-				top:this.getRangeRandom(vPosRangeTopY[0],vPosRangeTopY[1]),
-				left:this.getRangeRandom(vPosRangeX[0],vPosRangeX[1])
+			imagesArrangeTopArr[index] = {
+				pos:{
+					top:this.getRangeRandom(vPosRangeTopY[0],vPosRangeTopY[1]),
+					left:this.getRangeRandom(vPosRangeX[0],vPosRangeX[1])	
+				},
+				rotate:this.get30DegRandom(),
+				isCenter : false
+
 			}
 		})
 		//左右两侧
@@ -124,18 +162,27 @@ class Gallery extends Component{
 			}else{
 				hPosRangeLOrX = hPosRangeRightSecX;
 			}
-			imagesArrangeArr[i].pos = {
-				top : this.getRangeRandom(hPosRangeY[0],hPosRangeY[1]),
-				left : this.getRangeRandom(hPosRangeLOrX[0],hPosRangeLOrX[1])
+			imagesArrangeArr[i] = {
+				pos:{
+					top : this.getRangeRandom(hPosRangeY[0],hPosRangeY[1]),
+					left : this.getRangeRandom(hPosRangeLOrX[0],hPosRangeLOrX[1])	
+				},
+				rotate:this.get30DegRandom(),
+				isCenter : false
 			};
+
 		}
+		
 		if(imagesArrangeTopArr && imagesArrangeTopArr[0]){
 			imagesArrangeArr.splice(topImageSpliceIndex,0,imagesArrangeTopArr[0]);
 		}
+		
 		imagesArrangeArr.splice(centerIndex,0,imagesArrangeCenterArr[0]);
+		
 		this.setState({
 			imagesArrangeArr : imagesArrangeArr
 		});
+		
 	}
 	render(){
 		let controllerUnits = [],
@@ -147,14 +194,19 @@ class Gallery extends Component{
 					pos:{
 						left:0,
 						top:0
-					}
+					},
+					rotate:0,
+					isInverse : false,
+					isCenter:false
 				}
 			};
 			imageFigures.push(
 				<ImageFigure key = {i} 
 							data = {imageDatas[i]} 
 							ref = {"imageFigure" + i} 
-							arrange = {this.state.imagesArrangeArr[i]}/>
+							arrange = {this.state.imagesArrangeArr[i]}
+							inverse = {this.inverseActionCreator(i)}
+							center = {this.centerActionCreator(i)}/>
 				);
 		};
 		
