@@ -210,7 +210,9 @@ class Gallery extends Component{
 							center = {this.centerActionCreator(i)}/>
 				);
 			controllerUnits.push(<ControllerUnit key = {i}
-				/>);
+										arrange = {this.state.imagesArrangeArr[i]}
+										inverse = {this.inverseActionCreator(i)}
+										center = {this.centerActionCreator(i)} />);
 		};
 		
 		return (
