@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom'
-import ImageFigure from './imageFigure'
+import ImageFigure from './ImageFigure'
+import ControllerUnit from './ControllerUnit'
 import images from '../data/imageDatas';
 
 
@@ -208,6 +209,8 @@ class Gallery extends Component{
 							inverse = {this.inverseActionCreator(i)}
 							center = {this.centerActionCreator(i)}/>
 				);
+			controllerUnits.push(<ControllerUnit key = {i}
+				/>);
 		};
 		
 		return (
