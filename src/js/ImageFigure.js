@@ -24,8 +24,8 @@ class ImageFigure extends Component{
 		};
 
 		if (arrange.rotate) {
-			(['Moz','ms','Webkit','']).forEach((value)=>{
-				styleObj[value + 'transform'] = 'rotate(' + arrange.rotate + 'deg)';
+			(['MozTransform','msTransform','WebkitTransform','transform']).forEach((value)=>{
+				styleObj[value] = 'rotate(' + arrange.rotate + 'deg)';
 			});
 		};
 		if (arrange.isCenter){
