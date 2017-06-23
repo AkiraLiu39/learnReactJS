@@ -27,15 +27,15 @@ module.exports = {
       test: /\.css$/,
       loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', 'autoprefixer-loader?{browsers:["last 2 version"]}']
+          use: ['css-loader', 'postcss-loader']
         }) //'style-loader!css-loader?modules'//添加对样式表的处理 注：感叹号的作用在于使同一文件能够使用不同类型的loader
     }, {
       test: /\.scss/,
       loader: ExtractTextPlugin.extract({
         fallback: "style-loader",
-        use: ['css-loader', 'autoprefixer-loader?{browsers:["last 2 version"]}', 'sass-loader?outputStyle=expanded']
+        use: ['css-loader', 'postcss-loader', 'sass-loader?outputStyle=expanded']
       })
-    }, {
+    },{
       test: /\.(png|jpg|woff|woff2|eot|ttf|svg)$/,
       loader: 'url-loader?limit=8192'
     }]
